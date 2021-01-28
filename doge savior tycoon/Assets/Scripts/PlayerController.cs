@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        
         inputs.KeysandMouse.Movement.performed += ctx => 
         { 
             velocity = ctx.ReadValue<Vector2>();
