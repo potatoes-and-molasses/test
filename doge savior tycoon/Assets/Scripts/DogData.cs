@@ -7,12 +7,12 @@ public class DogData
     public string name;
     public int base_cost;
     public int current_risk;
-    int time_kept;
+    public int time_kept;
     public int maintenance_cost;
-    float increase_modifier;
-    
+    public float increase_modifier;
+    public int doge_id;
 
-    public DogData(string aname, int basec, int maintenance, float modifier)
+    public DogData(string aname, int basec, int maintenance, float modifier, int id)
     {
         name = aname;
         base_cost = basec;
@@ -20,6 +20,7 @@ public class DogData
         time_kept = 0;
         maintenance_cost = maintenance;
         increase_modifier = modifier;
+        doge_id = id;
     }
     
     public int sell()

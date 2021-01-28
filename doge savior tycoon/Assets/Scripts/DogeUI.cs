@@ -19,10 +19,10 @@ public class DogeUI : MonoBehaviour
         TMP_Text maintenance = GetComponentsInChildren<TMP_Text>()[3];
         TMP_Text risk = GetComponentsInChildren<TMP_Text>()[4];
         name.text = data.name;
-        reward.text = ""+data.base_cost;
-        maintenance.text = $"{data.maintenance_cost}";
-        risk.text = "" + data.current_risk;
-
+        reward.text = "Base Reward: "+data.base_cost+"$";
+        maintenance.text = $"Food Cost: {data.maintenance_cost}$";
+        risk.text = "Risk Level: " + data.current_risk;
+        doge_id = data.doge_id;
 
     }
 
