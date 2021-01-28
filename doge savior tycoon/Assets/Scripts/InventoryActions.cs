@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryActions : MonoBehaviour
 {
@@ -16,15 +17,23 @@ public class InventoryActions : MonoBehaviour
     const int WHISTLE_COST = 50;
     const int BOOTS_COST = 300;
     const int WELL_COST = 10000;
-
+    string[] NAMES = {"Mr. Doge","Doge, the Esteemed", "Good Ol' Doge", "Yet Another Doge", "Doge, the First", "Just a Doge", "Bob", "Arch-Dog Extraordinaire", "Cat"};
+    public void generate_new_doge()
+    {
+        string name = NAMES[Random.Range(0, NAMES.Length)];
+        int basec = Random.Range(50, 250);
+        int maintenance = Random.Range(1, basec / 10);
+        float mod = Random.Range(0.4f, 1.6f);
+        create_doge(new DogData(name, basec, maintenance, mod, doges.Count));
+    }
     // Start is called before the first frame update
     void Start()
     {
         current_balance = 10;
         cost_per_sec = 0;
         InvokeRepeating("TimePass", 1, 1);
-        add_dog();
-        create_doge(new DogData("test", 1, 3, 0.1f));
+        generate_new_doge();
+        
     }
 
     void TimePass()
@@ -51,7 +60,8 @@ public class InventoryActions : MonoBehaviour
 
         GameObject obj = Instantiate(prefab, transform.position, transform.rotation);
         obj.GetComponent<DogeUI>().data = data;
-        obj.transform.SetParent(transform);
+        
+        obj.transform.SetParent(transform.Find("DogsPanel").transform);
     }
     void sell_doge(int idx)
     {
@@ -88,15 +98,4 @@ public class InventoryActions : MonoBehaviour
         has_well = true;
     }
 
-    public void add_dog()
-    {
-        
-        DogData dog = new DogData("Dog_" + (char)('A' + Random.Range(0, 26)),10+Random.Range(1,50),Random.Range(1,5),1.0f);
-        doges.Add(dog);
-        
-        cost_per_sec += dog.maintenance_cost;
-
-        dog.dbgprint();
-
-    }
 }
