@@ -45,7 +45,13 @@ public class DogeUI : MonoBehaviour
     public void selldoge()
     {
         inventory_ref.sell_doge(doge_id);
+        
         Object.Destroy(this.gameObject);//need fancy sell animation and effects
+    }
+
+    public void OnDestroy()
+    {
+        
     }
 
 }
