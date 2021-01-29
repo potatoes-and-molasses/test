@@ -45,7 +45,7 @@ public class DogMovement : MonoBehaviour
         var distFromOwner = Vector3.Distance(transform.position, owner.transform.position);
         var distFromTarget = Vector3.Distance(transform.position, targetPosition);
         DogsLogic(distFromOwner, distFromTarget);
-        leash.SetPositions(new Vector3[] { transform.position, owner.transform.position + leashOffset});
+        leash.SetPositions(new Vector3[] {transform.position, hand.position});
     }
 
 

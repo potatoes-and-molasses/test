@@ -23,6 +23,7 @@ public class VictimController : Movable
     void Awake()
     {
         belovedDog.owner = this;
+        belovedDog.hand = transform;
     }
     private void Start()
     {
@@ -38,10 +39,9 @@ public class VictimController : Movable
         {
             PlayerController player = GameManager.Player;
             if (player.IsStealing)
-            {
-                var offset = player.GetHand().position - player.transform.position;
-                belovedDog.leashOffset = offset;
+            {   
                 belovedDog.owner = GameManager.Player;
+                belovedDog.hand = player.GetHand();
             }
         }
     }
