@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     {
         Player = FindObjectOfType<PlayerController>();
         Inventory = FindObjectOfType<InventoryActions>();
+        Inventory.hide();
     }
 
     public static void ToggleInventory()

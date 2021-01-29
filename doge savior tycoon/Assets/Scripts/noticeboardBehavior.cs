@@ -6,9 +6,11 @@ public class noticeboardBehavior : MonoBehaviour
 {
 
     
+    
     // Start is called before the first frame update
     void Start()
     {
+        
         
     }
 
@@ -20,7 +22,16 @@ public class noticeboardBehavior : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("yo");
+        Debug.Log(collision.gameObject.name);
+        //if (collision.gameObject.name == "Player")
+        {
+            int dogecount = GameManager.Player.GetDogeAmount();
+            for (int i = 0; i < dogecount; i++)
+            {
+                GameManager.Inventory.generate_new_doge();
+            }
+            GameManager.ToggleInventory();
+        }
     }
 
 }
