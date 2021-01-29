@@ -14,13 +14,15 @@ public class CameraController : MonoBehaviour
         cam = GetComponent<Camera>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
          //velocity = transform.position - lastPos;
          //lastPos = transform.position;
          Vector3 newPos = GameManager.Player.transform.position;
-        newPos.z = transform.position.z;
-        // transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, 10 * Time.smoothDeltaTime);
-        transform.position = newPos;
+         newPos.z = transform.position.z;
+         velocity = newPos - transform.position;
+
+         transform.position += velocity * followSpeed * Time.fixedDeltaTime;
+        
     }
 }
