@@ -6,15 +6,16 @@ using UnityEngine;
 public class DogMovement : MonoBehaviour
 {
     enum State {WalksToOwner, WalksToRandomPoint, RichedRandomPoint , RichedOwner };
-    public Transform owner;
-    public float lishLength = 5;
+    public Movable owner;
+    public float leashLength = 5;
     public float minDistanceFromOwner = 1;
     public float acceleration = 5;
     public float deceleration = 8;
     public float speed = 6;
     public float turnSpeed = 10;
-    public LineRenderer lish;
-    public Color32 lishColor;
+    public LineRenderer leash;
+    public Color32 leashColor;
+    public LayerMask layerMask;
 
     private Vector2 velocity;
     private float currentSpeed;
@@ -23,26 +24,27 @@ public class DogMovement : MonoBehaviour
     private Vector3 targetPosition;
     private State state = State.RichedRandomPoint;
     private float timeNearTarget = 0;
+    private float wait = 1;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        lish = GetComponent<LineRenderer>();
-        lish.startWidth = 0.1f;
-        lish.endWidth = 0.1f;
-        lish.startColor = lishColor;
-        lish.endColor = lishColor;
-        lish.sortingOrder = -1;
+        leash = GetComponent<LineRenderer>();
+        leash.startWidth = 0.1f;
+        leash.endWidth = 0.1f;
+        leash.startColor = leashColor;
+        leash.endColor = leashColor;
+        leash.sortingOrder = -1;
         GenerateNewTarget();
-        speed = Random.Range(4, 10);
+        speed = Random.Range(4, 6);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        var distFromOwner = Vector3.Distance(transform.position, owner.position);
+        var distFromOwner = Vector3.Distance(transform.position, owner.transform.position);
         var distFromTarget = Vector3.Distance(transform.position, targetPosition);
         DogsLogic(distFromOwner, distFromTarget);
-        lish.SetPositions(new Vector3[] { transform.position, owner.position });
+        leash.SetPositions(new Vector3[] { transform.position, owner.transform.position });
     }
 
 
@@ -59,21 +61,27 @@ public class DogMovement : MonoBehaviour
                 UpdateMovement(distanceToTargrt);
                 return;
             case State.WalksToRandomPoint:
-                if (distanceToOwner > lishLength)
+                if (distanceToOwner > leashLength)
                 {
                     state = State.WalksToOwner;
                     return;
                 }
-                if(distanceToTargrt < 0.3f)
+                if(distanceToTargrt < 0.5f)
                 {
                     state = State.RichedRandomPoint;
+                    wait = Random.Range(0.6f, 1.4f);
                     timeNearTarget = 0;
                     return;
                 }
                 UpdateMovement(distanceToTargrt);
                 return;
             case State.RichedRandomPoint:
-                if(timeNearTarget >= 1)
+                if (distanceToOwner > leashLength)
+                {
+                    state = State.WalksToOwner;
+                    return;
+                }
+                if(timeNearTarget >= wait)
                 {
                     state = State.WalksToRandomPoint;
                     GenerateNewTarget();
@@ -106,22 +114,42 @@ public class DogMovement : MonoBehaviour
 
     void GenerateNewTarget()
     {        
-        var length = Random.Range(minDistanceFromOwner, lishLength);
+        var length = Random.Range(minDistanceFromOwner, leashLength);
         var angle = Random.Range(0, 2 * Mathf.PI);
-        Vector3 newTarget = owner.position + new Vector3(Mathf.Sin(angle) * length, Mathf.Cos(angle) * length, 0);
-        while(Vector3.Distance(newTarget, targetPosition) < minDistanceFromOwner/2)
+        Vector3 newTarget = owner.transform.position + new Vector3(Mathf.Sin(angle) * length, Mathf.Cos(angle) * length, 0);
+        
+        
+        while(Vector3.Distance(newTarget, transform.position) < minDistanceFromOwner/2)
         {
-            length = Random.Range(minDistanceFromOwner, lishLength);
+            length = Random.Range(minDistanceFromOwner, leashLength);
             angle = Random.Range(0, 2 * Mathf.PI);
-            newTarget = owner.position + new Vector3(Mathf.Sin(angle) * length, Mathf.Cos(angle) * length, 0);
+            newTarget = owner.transform.position + new Vector3(Mathf.Sin(angle) * length, Mathf.Cos(angle) * length, 0);
         }
+        //if(Physics.Raycast(transform.position, dir, out hit, leashLength, layerMask))
+        //{
+         //   newTarget = hit.point;
+        //}
         targetPosition = newTarget;
+        var dir = (newTarget - transform.position).normalized;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 1000, layerMask);
+        if (hit.collider != null)
+        {
+            Vector3 hitPoint = new Vector3(hit.point.x, hit.point.y, 0);
+            float dist = Vector3.Distance(targetPosition, hitPoint);
+            targetPosition -= dir * (dist + 0.3f);
+            
+        }
+    }
+
+    void OnTargetCollision(Vector3 direction, RaycastHit2D hit)
+    {
+
     }
 
     void CalculateVelocity()
     {
         if(state == State.WalksToOwner)
-            velocity = (owner.position - transform.position).normalized;
+            velocity = (owner.transform.position - transform.position).normalized;
         else
             velocity = (targetPosition - transform.position).normalized;
     }
@@ -133,19 +161,28 @@ public class DogMovement : MonoBehaviour
     }
     void Move(float dist)
     {
-        var newPos = new Vector3(velocity.x, velocity.y, 0);
+        /*var newPos = new Vector3(velocity.x, velocity.y, 0);
         if(state == State.WalksToOwner)
             rb.MovePosition(transform.position + newPos * speed * Time.fixedDeltaTime);
         else if(dist > 0.3)
-            rb.MovePosition(transform.position + newPos * (speed/2) * Time.fixedDeltaTime);
+            rb.MovePosition(transform.position + newPos * (speed/2) * Time.fixedDeltaTime);*/
+
+        var newPos = transform.right;
+        if (state == State.WalksToOwner)
+            rb.MovePosition(transform.position + newPos * owner.speed * Time.fixedDeltaTime);
+        else if (dist > 0.3)
+            rb.MovePosition(transform.position + newPos * speed * Time.fixedDeltaTime);
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawSphere(targetPosition, 1);
+        if (owner == null)
+            return;
+        Gizmos.DrawSphere(targetPosition, 0.5f);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(owner.position, minDistanceFromOwner);
+        Gizmos.DrawWireSphere(owner.transform.position, minDistanceFromOwner);
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(owner.position, lishLength);
+        Gizmos.DrawWireSphere(owner.transform.position, leashLength);
+        Gizmos.color = Color.red;
     }
 }

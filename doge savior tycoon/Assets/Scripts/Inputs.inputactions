@@ -12,6 +12,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "StealDog",
+                    "type": "Button",
+                    "id": "67c09374-5767-4196-8ee6-7bba8eb4bd9f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap"
                 }
             ],
             "bindings": [
@@ -124,6 +132,17 @@
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "782acb0f-b2c5-4c4d-9859-422cf2c4afed",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StealDog",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

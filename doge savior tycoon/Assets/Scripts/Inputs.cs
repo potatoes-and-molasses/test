@@ -25,6 +25,14 @@ public class @Inputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""StealDog"",
+                    ""type"": ""Button"",
+                    ""id"": ""67c09374-5767-4196-8ee6-7bba8eb4bd9f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap""
                 }
             ],
             ""bindings"": [
@@ -137,6 +145,17 @@ public class @Inputs : IInputActionCollection, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""782acb0f-b2c5-4c4d-9859-422cf2c4afed"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StealDog"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -146,6 +165,7 @@ public class @Inputs : IInputActionCollection, IDisposable
         // Keys and Mouse
         m_KeysandMouse = asset.FindActionMap("Keys and Mouse", throwIfNotFound: true);
         m_KeysandMouse_Movement = m_KeysandMouse.FindAction("Movement", throwIfNotFound: true);
+        m_KeysandMouse_StealDog = m_KeysandMouse.FindAction("StealDog", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -196,11 +216,13 @@ public class @Inputs : IInputActionCollection, IDisposable
     private readonly InputActionMap m_KeysandMouse;
     private IKeysandMouseActions m_KeysandMouseActionsCallbackInterface;
     private readonly InputAction m_KeysandMouse_Movement;
+    private readonly InputAction m_KeysandMouse_StealDog;
     public struct KeysandMouseActions
     {
         private @Inputs m_Wrapper;
         public KeysandMouseActions(@Inputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_KeysandMouse_Movement;
+        public InputAction @StealDog => m_Wrapper.m_KeysandMouse_StealDog;
         public InputActionMap Get() { return m_Wrapper.m_KeysandMouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -213,6 +235,9 @@ public class @Inputs : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnMovement;
+                @StealDog.started -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnStealDog;
+                @StealDog.performed -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnStealDog;
+                @StealDog.canceled -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnStealDog;
             }
             m_Wrapper.m_KeysandMouseActionsCallbackInterface = instance;
             if (instance != null)
@@ -220,6 +245,9 @@ public class @Inputs : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @StealDog.started += instance.OnStealDog;
+                @StealDog.performed += instance.OnStealDog;
+                @StealDog.canceled += instance.OnStealDog;
             }
         }
     }
@@ -227,5 +255,6 @@ public class @Inputs : IInputActionCollection, IDisposable
     public interface IKeysandMouseActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnStealDog(InputAction.CallbackContext context);
     }
 }

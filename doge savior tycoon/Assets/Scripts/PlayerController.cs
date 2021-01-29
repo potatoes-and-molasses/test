@@ -2,19 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Movable
 {
-    public float acceleration = 5;
-    public float deceleration = 8;
-    public float speed = 6;
-    public float turnSpeed = 10;
-    
+  
     private Inputs inputs;
     private Vector2 velocity;
     private float currentSpeed;
     private bool isMoving;
     private Rigidbody2D rb;
+    private bool isStealing = false;
 
+    public bool IsStealing => isStealing;
+    
     private void Awake()
     {
         inputs = new Inputs();
@@ -44,6 +43,16 @@ public class PlayerController : MonoBehaviour
             //velocity = Vector2.zero;
             isMoving = false;
         };
+        inputs.KeysandMouse.StealDog.started += ctx => StartCoroutine(StealDog());
+        inputs.KeysandMouse.StealDog.canceled += ctx => isStealing = false;
+    }
+
+    IEnumerator StealDog()
+    {
+        isStealing = true;
+        yield return new WaitForFixedUpdate();
+        isStealing = false;
+
     }
 
     // Update is called once per frame
