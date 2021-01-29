@@ -16,6 +16,7 @@ public class DogMovement : MonoBehaviour
     public LineRenderer leash;
     public Color32 leashColor;
     public LayerMask layerMask;
+    public Transform hand;
 
     private Vector2 velocity;
     private float currentSpeed;
@@ -44,7 +45,7 @@ public class DogMovement : MonoBehaviour
         var distFromOwner = Vector3.Distance(transform.position, owner.transform.position);
         var distFromTarget = Vector3.Distance(transform.position, targetPosition);
         DogsLogic(distFromOwner, distFromTarget);
-        leash.SetPositions(new Vector3[] { transform.position, owner.transform.position });
+        leash.SetPositions(new Vector3[] { transform.position, owner.transform.position + leashOffset});
     }
 
 

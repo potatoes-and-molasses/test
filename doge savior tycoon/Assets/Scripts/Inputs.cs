@@ -33,6 +33,14 @@ public class @Inputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Tap""
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""f7d4dca5-40ad-4246-919d-1549055a33c1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap""
                 }
             ],
             ""bindings"": [
@@ -156,6 +164,17 @@ public class @Inputs : IInputActionCollection, IDisposable
                     ""action"": ""StealDog"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""89edc2b3-edb2-4b73-91c6-0030a8e01d66"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -166,6 +185,7 @@ public class @Inputs : IInputActionCollection, IDisposable
         m_KeysandMouse = asset.FindActionMap("Keys and Mouse", throwIfNotFound: true);
         m_KeysandMouse_Movement = m_KeysandMouse.FindAction("Movement", throwIfNotFound: true);
         m_KeysandMouse_StealDog = m_KeysandMouse.FindAction("StealDog", throwIfNotFound: true);
+        m_KeysandMouse_Inventory = m_KeysandMouse.FindAction("Inventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -217,12 +237,14 @@ public class @Inputs : IInputActionCollection, IDisposable
     private IKeysandMouseActions m_KeysandMouseActionsCallbackInterface;
     private readonly InputAction m_KeysandMouse_Movement;
     private readonly InputAction m_KeysandMouse_StealDog;
+    private readonly InputAction m_KeysandMouse_Inventory;
     public struct KeysandMouseActions
     {
         private @Inputs m_Wrapper;
         public KeysandMouseActions(@Inputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_KeysandMouse_Movement;
         public InputAction @StealDog => m_Wrapper.m_KeysandMouse_StealDog;
+        public InputAction @Inventory => m_Wrapper.m_KeysandMouse_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_KeysandMouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -238,6 +260,9 @@ public class @Inputs : IInputActionCollection, IDisposable
                 @StealDog.started -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnStealDog;
                 @StealDog.performed -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnStealDog;
                 @StealDog.canceled -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnStealDog;
+                @Inventory.started -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnInventory;
+                @Inventory.performed -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnInventory;
+                @Inventory.canceled -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnInventory;
             }
             m_Wrapper.m_KeysandMouseActionsCallbackInterface = instance;
             if (instance != null)
@@ -248,6 +273,9 @@ public class @Inputs : IInputActionCollection, IDisposable
                 @StealDog.started += instance.OnStealDog;
                 @StealDog.performed += instance.OnStealDog;
                 @StealDog.canceled += instance.OnStealDog;
+                @Inventory.started += instance.OnInventory;
+                @Inventory.performed += instance.OnInventory;
+                @Inventory.canceled += instance.OnInventory;
             }
         }
     }
@@ -256,5 +284,6 @@ public class @Inputs : IInputActionCollection, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnStealDog(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
 }

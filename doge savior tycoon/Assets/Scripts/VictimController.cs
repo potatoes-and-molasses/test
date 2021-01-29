@@ -36,8 +36,13 @@ public class VictimController : Movable
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dist, layerMask);
         if(hit.collider != null)
         {
-            if(GameManager.Player.IsStealing)
-            belovedDog.owner = GameManager.Player;
+            PlayerController player = GameManager.Player;
+            if (player.IsStealing)
+            {
+                var offset = player.GetHand().position - player.transform.position;
+                belovedDog.leashOffset = offset;
+                belovedDog.owner = GameManager.Player;
+            }
         }
     }
 

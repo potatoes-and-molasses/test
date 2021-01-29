@@ -45,8 +45,13 @@ public class PlayerController : Movable
         };
         inputs.KeysandMouse.StealDog.started += ctx => StartCoroutine(StealDog());
         inputs.KeysandMouse.StealDog.canceled += ctx => isStealing = false;
+        inputs.KeysandMouse.Inventory.started += ctx => GameManager.ToggleInventory();
     }
 
+    public Transform GetHand()
+    {
+        return transform.GetChild(0);
+    }
     IEnumerator StealDog()
     {
         isStealing = true;
