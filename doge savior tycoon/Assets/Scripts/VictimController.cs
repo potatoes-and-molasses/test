@@ -10,6 +10,7 @@ public class VictimController : Movable
     public LayerMask enviromentLayerMask;
 
     private float currentSpeed;
+    ThiefDetector detector;
     private Rigidbody2D rb;
     private Vector2 velocity;
     public Vector3 target;
@@ -28,6 +29,8 @@ public class VictimController : Movable
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        detector = GetComponent<ThiefDetector>();
+        detector.OnStealingDetection += OnStealingDetection;
         ChooseState();
     }
     void CheckIfPlayerStealDoge()
@@ -46,6 +49,10 @@ public class VictimController : Movable
         }
     }
 
+    void OnStealingDetection()
+    {
+        Debug.Log("Oh no!");
+    }
 
     void VictimLogic()
     {
