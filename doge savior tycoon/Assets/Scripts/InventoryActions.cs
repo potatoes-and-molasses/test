@@ -18,6 +18,7 @@ public class InventoryActions : MonoBehaviour
     const int WHISTLE_COST = 50;
     const int BOOTS_COST = 300;
     const int WELL_COST = 10000;
+    bool active = true;
     TMP_Text balance_value;
     TMP_Text maint_value;
 
@@ -25,6 +26,7 @@ public class InventoryActions : MonoBehaviour
     {
         Canvas canvas = GetComponent<Canvas>();
         canvas.enabled = false;
+        active = false;
 
     }
 
@@ -32,7 +34,13 @@ public class InventoryActions : MonoBehaviour
     {
         Canvas canvas = GetComponent<Canvas>();
         canvas.enabled = true;
+        active = true;
 
+    }
+
+    public bool isActive()
+    {
+        return active;
     }
     string[] NAMES = {"Mr. Doge","Doge, the Esteemed", "Good Ol' Doge", "Yet Another Doge", "Doge, the First", "Just a Doge", "Bob", "Arch-Dog Extraordinaire", "Cat"};
     public void generate_new_doge()
