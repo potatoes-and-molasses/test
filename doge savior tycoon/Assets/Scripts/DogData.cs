@@ -25,7 +25,7 @@ public class DogData
     
     public int sell()
     {
-        return (int)(base_cost + base_cost*Mathf.Pow((float)(increase_modifier * time_kept), 2));
+        return (int)(base_cost + base_cost*Mathf.Pow((float)(increase_modifier * time_kept/10), 2));
     }
 
     public void updog()
