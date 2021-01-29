@@ -20,6 +20,20 @@ public class InventoryActions : MonoBehaviour
     const int WELL_COST = 10000;
     TMP_Text balance_value;
     TMP_Text maint_value;
+
+    public void hide()
+    {
+        Canvas canvas = GetComponent<Canvas>();
+        canvas.enabled = false;
+
+    }
+
+    public void show()
+    {
+        Canvas canvas = GetComponent<Canvas>();
+        canvas.enabled = true;
+
+    }
     string[] NAMES = {"Mr. Doge","Doge, the Esteemed", "Good Ol' Doge", "Yet Another Doge", "Doge, the First", "Just a Doge", "Bob", "Arch-Dog Extraordinaire", "Cat"};
     public void generate_new_doge()
     {
@@ -34,7 +48,7 @@ public class InventoryActions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
         current_balance = 10;
         cost_per_sec = 0;
         balance_value = GameObject.Find("CurrentBalanceValue").GetComponent<TMP_Text>();
@@ -43,7 +57,7 @@ public class InventoryActions : MonoBehaviour
         generate_new_doge();
         generate_new_doge();
         generate_new_doge();
-
+        
     }
 
     void TimePass()

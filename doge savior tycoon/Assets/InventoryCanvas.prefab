@@ -827,7 +827,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6581613758174810018}
         m_TargetAssemblyTypeName: InventoryActions, Assembly-CSharp
-        m_MethodName: upgrade_boots
+        m_MethodName: hide
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
