@@ -4,16 +4,27 @@ using UnityEngine;
 
 public class PlayerController : Movable
 {
-  
+
     private Inputs inputs;
     private Vector2 velocity;
     private float currentSpeed;
     private bool isMoving;
     private Rigidbody2D rb;
     private bool isStealing = false;
-
+    private int newDogs;
     public bool IsStealing => isStealing;
     
+    public void AddDog()
+    {
+        newDogs++;
+    }
+
+    public int GetDogeAmount()
+    {
+        int res = newDogs;
+        newDogs = 0;
+        return res;
+    }
     private void Awake()
     {
         inputs = new Inputs();

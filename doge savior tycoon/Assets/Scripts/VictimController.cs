@@ -45,6 +45,7 @@ public class VictimController : Movable
             {   
                 belovedDog.owner = GameManager.Player;
                 belovedDog.hand = player.GetHand();
+                player.AddDog();
             }
         }
     }
