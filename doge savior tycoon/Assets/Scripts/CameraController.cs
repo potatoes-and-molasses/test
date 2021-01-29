@@ -16,10 +16,11 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-         velocity = transform.position - lastPos;
-         lastPos = transform.position;
+         //velocity = transform.position - lastPos;
+         //lastPos = transform.position;
          Vector3 newPos = GameManager.Player.transform.position;
-         newPos.z = transform.position.z;
-         transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, 10 * Time.smoothDeltaTime);
+        newPos.z = transform.position.z;
+        // transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, 10 * Time.smoothDeltaTime);
+        transform.position = newPos;
     }
 }
