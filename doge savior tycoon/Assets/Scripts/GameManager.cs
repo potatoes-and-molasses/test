@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Inventory.hide();
+        Spawner.spawn_obj("cop");
     }
 
     public static float ChaseTime()
