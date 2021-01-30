@@ -40,7 +40,6 @@ public class CopController : Movable
 
     private void OnTriggerEnter2D(Collider2D collision) //not working yet
     {
-        Debug.Log(collision.name);
         if (collision.name == "Player")//noooo
         {
             GameManager.Inventory.remove_all_doges();
@@ -137,7 +136,6 @@ public class CopController : Movable
             float rnd = UnityEngine.Random.Range(0f, 1f);
             if (rnd < (delta / (GameManager.cop_count + GameManager.cop_cap)))
             {
-                Debug.Log("copdelete engaged");
                 Destroy(gameObject);
                 GameManager.cop_count -= 1;
             }
@@ -150,7 +148,5 @@ public class CopController : Movable
         CopLogic();
         FOV.localScale = new Vector3(detector.radius, detector.radius, 1);
     }
-
-    // Update is called once per frame
    
 }

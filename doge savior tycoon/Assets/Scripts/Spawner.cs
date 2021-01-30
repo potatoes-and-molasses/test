@@ -7,12 +7,12 @@ public class Spawner : MonoBehaviour
     public float width;
     public float height;
     public GameObject cop_prefab;
-    public GameObject human_prefab;
+    public GameObject[] humanPrefab;
     public GameObject doge_prefab;
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("TimePass", GameManager.timepassage, GameManager.timepassage);
+        InvokeRepeating(nameof(TimePass), GameManager.timepassage, GameManager.timepassage);
     }
 
     public void TimePass()
@@ -52,20 +52,19 @@ public class Spawner : MonoBehaviour
                 {
                     pos = RandomPoint();
                 }
-                Debug.Log("spawn cop at " + pos);
-                GameObject da_police = Instantiate(cop_prefab, pos, Quaternion.identity);
+                Instantiate(cop_prefab, pos, Quaternion.identity);
                 GameManager.cop_count += 1;
                 break;
             case "humandog":
                 Vector3 pos2 = RandomPoint();
-                Debug.Log("spawn humandog at " + pos2);
-                GameObject human = Instantiate(human_prefab, pos2, Quaternion.identity);
+                int i = Random.Range(0, humanPrefab.Length);
+                GameObject human = Instantiate(humanPrefab[i], pos2, Quaternion.identity);
                 GameObject doge = Instantiate(doge_prefab, pos2+(new Vector3(2f,-2f,1)), Quaternion.identity);
                 VictimController ct = human.GetComponent<VictimController>();
                 ct.belovedDog = doge.GetComponent<DogMovement>();
                 DogMovement dm = doge.GetComponent<DogMovement>();
                 dm.owner = ct;
-                dm.hand = ct.transform;
+                dm.hand = ct.transform.GetChild(0);
                 GameManager.human_count += 1;
                 break;
             default:

@@ -46,7 +46,7 @@ public class DogMovement : MonoBehaviour
         var distFromOwner = Vector3.Distance(transform.position, owner.transform.position);
         var distFromTarget = Vector3.Distance(transform.position, targetPosition);
         DogsLogic(distFromOwner, distFromTarget);
-        leash.SetPositions(new Vector3[] {transform.position, hand.position});
+        leash.SetPositions(new Vector3[] {transform.GetChild(0).position, hand.position});
     }
 
 
@@ -127,10 +127,7 @@ public class DogMovement : MonoBehaviour
             angle = Random.Range(0, 2 * Mathf.PI);
             newTarget = owner.transform.position + new Vector3(Mathf.Sin(angle) * length, Mathf.Cos(angle) * length, 0);
         }
-        //if(Physics.Raycast(transform.position, dir, out hit, leashLength, layerMask))
-        //{
-         //   newTarget = hit.point;
-        //}
+
         targetPosition = newTarget;
         var dir = (newTarget - transform.position).normalized;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 1000, layerMask);
@@ -163,12 +160,6 @@ public class DogMovement : MonoBehaviour
     }
     void Move(float dist)
     {
-        /*var newPos = new Vector3(velocity.x, velocity.y, 0);
-        if(state == State.WalksToOwner)
-            rb.MovePosition(transform.position + newPos * speed * Time.fixedDeltaTime);
-        else if(dist > 0.3)
-            rb.MovePosition(transform.position + newPos * (speed/2) * Time.fixedDeltaTime);*/
-
         var newPos = new Vector3(velocity.x, velocity.y, 0);
         if (state == State.WalksToOwner)
             rb.MovePosition(transform.position + newPos * owner.speed * Time.fixedDeltaTime);

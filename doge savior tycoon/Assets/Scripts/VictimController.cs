@@ -23,11 +23,6 @@ public class VictimController : Movable
     bool canSeePlayer = false;
     [SerializeField]
     State state;
-    void Awake()
-    {
-        //belovedDog.owner = this;
-        //belovedDog.hand = transform;
-    }
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
