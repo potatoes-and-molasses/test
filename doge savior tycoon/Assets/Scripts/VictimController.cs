@@ -24,8 +24,8 @@ public class VictimController : Movable
     State state;
     void Awake()
     {
-        belovedDog.owner = this;
-        belovedDog.hand = transform;
+        //belovedDog.owner = this;
+        //belovedDog.hand = transform;
     }
     private void Start()
     {
@@ -62,7 +62,7 @@ public class VictimController : Movable
         var cops = new List<CopController>(FindObjectsOfType<CopController>());
         cops.Sort((a, b) =>Vector3.Distance(transform.position, a.transform.position).CompareTo(Vector3.Distance(transform.position, b.transform.position)));
 
-        var num = Mathf.Max(GameManager.NumberOfCops(), cops.Count);
+        var num = Mathf.Min(GameManager.NumberOfCops(), cops.Count);
 
         for (int i = 0; i < num; i++)
         {
@@ -182,8 +182,11 @@ public class VictimController : Movable
 
     private void OnBecameInvisible()
     {
-        if(belovedDog == null)
+        if (belovedDog == null)
+        {
             Destroy(gameObject);
+            GameManager.human_count -= 1;
+        }
     }
     // Update is called once per frame
     void FixedUpdate()

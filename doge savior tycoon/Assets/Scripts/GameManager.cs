@@ -10,11 +10,16 @@ public class GameManager : MonoBehaviour
     public static int total_risk;
     public static int timepassage = 1;
     public static float maxRiskSeconds = 120;
+    public static int max_humans = 15;
+    public static int max_cops = 20;
+    public static int cop_count = 0;
+    public static int human_count = 0;
 
 
 
     static float CurrentRisk => Mathf.Clamp(total_risk / (maxRiskSeconds * maxRiskSeconds), 0, 1);
-    
+    public static int cop_cap => (int)(CurrentRisk*max_cops);
+
     void Awake()
     {
         Player = FindObjectOfType<PlayerController>();
@@ -24,7 +29,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Inventory.hide();
-        Spawner.spawn_obj("cop");
+        //Spawner.spawn_obj("cop");
+        //Spawner.spawn_obj("humandog");
     }
 
     public static float ChaseTime()
@@ -47,7 +53,7 @@ public class GameManager : MonoBehaviour
 
     public static float CopCreateChance()
     {
-        return CurrentRisk / 2;
+        return CurrentRisk / 3;
     }
 
     public static void ToggleInventory()

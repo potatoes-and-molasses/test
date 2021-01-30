@@ -12,6 +12,7 @@ public class CopController : Movable
     bool LookingForPlayer;
     public float patrolSpeed = 3;
     public LayerMask layerMask;
+    public LayerMask environmentLayerMask;
     public float alertTime = 10;
 
     State state = State.Patrolling;
@@ -84,9 +85,16 @@ public class CopController : Movable
 
     private void CreateNewTarget()
     {
-        var length = UnityEngine.Random.Range(5, 10);
-        var angle = UnityEngine.Random.Range(0, 2 * Mathf.PI);
-        target = transform.position + new Vector3(Mathf.Sin(angle) * length, Mathf.Cos(angle) * length, 0);
+        //var length = UnityEngine.Random.Range(5, 10);
+        //var angle = UnityEngine.Random.Range(0, 2 * Mathf.PI);
+        Vector3 newTarget = GameManager.Spawner.RandomPoint();
+        var dir = (newTarget - transform.position).normalized;
+        var dist = Vector3.Distance(transform.position, target);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dist, environmentLayerMask);
+        if (hit.collider != null)
+            target = new Vector3(hit.point.x, hit.point.y, 0) - dir;
+        else
+            target = newTarget;
     }
 
     private void Move()

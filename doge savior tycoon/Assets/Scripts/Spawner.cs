@@ -12,9 +12,17 @@ public class Spawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        InvokeRepeating("TimePass", GameManager.timepassage, GameManager.timepassage);
     }
 
+    public void TimePass()
+    {
+        
+        if ((GameManager.cop_count < GameManager.cop_cap )&& (Random.Range(0, 1f) < GameManager.CopCreateChance()))
+        {
+            spawn_obj("cop");
+        }
+    }
     public Vector3 RandomPoint()
     {
         var x = Random.Range(transform.position.x - width / 2, transform.position.x + width / 2);
@@ -23,7 +31,10 @@ public class Spawner : MonoBehaviour
     }
     void Update()
     {
-        
+        if (GameManager.human_count < GameManager.max_humans)
+        {
+            spawn_obj("humandog");
+        }
     }
     private void OnDrawGizmosSelected()
     {
@@ -38,13 +49,20 @@ public class Spawner : MonoBehaviour
             case "cop":
                 Vector3 pos = RandomPoint();
                 Debug.Log("spawn cop at " + pos);
-                GameObject da_police = Instantiate(cop_prefab, pos, transform.rotation);
+                GameObject da_police = Instantiate(cop_prefab, pos, Quaternion.identity);
+                GameManager.cop_count += 1;
                 break;
             case "humandog":
                 Vector3 pos2 = RandomPoint();
                 Debug.Log("spawn humandog at " + pos2);
-                GameObject human = Instantiate(human_prefab, pos2, transform.rotation);
-                GameObject doge = Instantiate(doge_prefab, pos2, transform.rotation);
+                GameObject human = Instantiate(human_prefab, pos2, Quaternion.identity);
+                GameObject doge = Instantiate(doge_prefab, pos2+(new Vector3(2f,-2f,1)), Quaternion.identity);
+                VictimController ct = human.GetComponent<VictimController>();
+                ct.belovedDog = doge.GetComponent<DogMovement>();
+                DogMovement dm = doge.GetComponent<DogMovement>();
+                dm.owner = ct;
+                dm.hand = ct.transform;
+                GameManager.human_count += 1;
                 break;
             default:
                 break;

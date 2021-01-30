@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2598651357672511472}
   - component: {fileID: 2598651357672511473}
   m_Layer: 0
-  m_Name: Untitled
+  m_Name: cop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,7 +143,10 @@ MonoBehaviour:
   patrolSpeed: 4
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
+  environmentLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   alertTime: 10
 --- !u!58 &2598651357672511473
 CircleCollider2D:
