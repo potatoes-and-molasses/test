@@ -48,6 +48,10 @@ public class Spawner : MonoBehaviour
         switch (objtype){
             case "cop":
                 Vector3 pos = RandomPoint();
+                while(Vector3.Distance(pos,GameManager.Player.transform.position) < 5)
+                {
+                    pos = RandomPoint();
+                }
                 Debug.Log("spawn cop at " + pos);
                 GameObject da_police = Instantiate(cop_prefab, pos, Quaternion.identity);
                 GameManager.cop_count += 1;
