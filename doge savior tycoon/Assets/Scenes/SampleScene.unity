@@ -2202,10 +2202,12 @@ MonoBehaviour:
   width: 86.07
   height: 57.3
   cop_prefab: {fileID: 2598651357672511438, guid: f1aa8b263fbc43745863197a67be2076, type: 3}
-  humanPrefab:
-  - {fileID: 1382462511249751145, guid: 34f7e955c25759d478adad4bba73ba43, type: 3}
+  humanPrefabs:
   - {fileID: 1382462511249751145, guid: 3ce24649f34ecae4e940aae639ba58a7, type: 3}
-  doge_prefab: {fileID: 1782083102536717182, guid: 7be38e3d7c5624749be6636ea544ebfe, type: 3}
+  - {fileID: 1382462511249751145, guid: 34f7e955c25759d478adad4bba73ba43, type: 3}
+  dogePrefabs:
+  - {fileID: 1782083102536717182, guid: 7be38e3d7c5624749be6636ea544ebfe, type: 3}
+  - {fileID: 1782083102536717182, guid: 86b91032441baeb47a3592d7197b54e3, type: 3}
 --- !u!4 &371197263
 Transform:
   m_ObjectHideFlags: 0
@@ -2850,7 +2852,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 423344839}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.8, y: 10.15, z: 0}
+  m_LocalPosition: {x: 20.97, y: 7.89, z: 0}
   m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
   m_Children: []
   m_Father: {fileID: 976396853}

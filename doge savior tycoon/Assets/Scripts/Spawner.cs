@@ -7,8 +7,8 @@ public class Spawner : MonoBehaviour
     public float width;
     public float height;
     public GameObject cop_prefab;
-    public GameObject[] humanPrefab;
-    public GameObject doge_prefab;
+    public GameObject[] humanPrefabs;
+    public GameObject[] dogePrefabs;
     // Start is called before the first frame update
     void Start()
     {
@@ -57,9 +57,10 @@ public class Spawner : MonoBehaviour
                 break;
             case "humandog":
                 Vector3 pos2 = RandomPoint();
-                int i = Random.Range(0, humanPrefab.Length);
-                GameObject human = Instantiate(humanPrefab[i], pos2, Quaternion.identity);
-                GameObject doge = Instantiate(doge_prefab, pos2+(new Vector3(2f,-2f,1)), Quaternion.identity);
+                int i = Random.Range(0, humanPrefabs.Length);
+                GameObject human = Instantiate(humanPrefabs[i], pos2, Quaternion.identity);
+                i = Random.Range(0, dogePrefabs.Length);
+                GameObject doge = Instantiate(dogePrefabs[i], pos2+(new Vector3(2f,-2f,1)), Quaternion.identity);
                 VictimController ct = human.GetComponent<VictimController>();
                 ct.belovedDog = doge.GetComponent<DogMovement>();
                 DogMovement dm = doge.GetComponent<DogMovement>();
