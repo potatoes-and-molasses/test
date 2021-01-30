@@ -5,8 +5,8 @@ using UnityEngine;
 public class noticeboardBehavior : MonoBehaviour
 {
 
-    
-    
+
+    bool inflag;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,12 +22,22 @@ public class noticeboardBehavior : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.name);
-        //if (collision.gameObject.name == "Player")
+        
         {
             GameManager.Inventory.enable_doges();
-            GameManager.ToggleInventory();
+            if (!inflag)
+            {
+                GameManager.ToggleInventory();
+                inflag = true;
+            }
         }
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        
+        {
+            inflag = false;
+        }
+    }
 }
