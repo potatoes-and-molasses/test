@@ -31,8 +31,8 @@ public class DogMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         leash = GetComponent<LineRenderer>();
-        leash.startWidth = 0.1f;
-        leash.endWidth = 0.1f;
+        leash.startWidth = 0.03f;
+        leash.endWidth = 0.03f;
         leash.startColor = leashColor;
         leash.endColor = leashColor;
         leash.sortingOrder = -1;

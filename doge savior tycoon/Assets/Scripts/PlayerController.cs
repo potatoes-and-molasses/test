@@ -60,13 +60,13 @@ public class PlayerController : Movable
         { 
             velocity = ctx.ReadValue<Vector2>();
             isMoving = true;
-            anim.SetTrigger("Walking");
+           // anim.SetTrigger("Walking");
         };
         inputs.KeysandMouse.Movement.canceled += ctx =>
         {
             //velocity = Vector2.zero;
             isMoving = false;
-            anim.ResetTrigger("Walking");
+            //anim.ResetTrigger("Walking");
         };
         inputs.KeysandMouse.StealDog.started += ctx =>
         {
@@ -92,6 +92,7 @@ public class PlayerController : Movable
     // Update is called once per frame
     void FixedUpdate()
     {
+        anim.SetBool("Walking", (velocity*currentSpeed).magnitude > 0.1f);
         UpdateSpeed();
         Move();
     }
