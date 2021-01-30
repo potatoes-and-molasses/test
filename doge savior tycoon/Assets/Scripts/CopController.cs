@@ -14,6 +14,9 @@ public class CopController : Movable
     public LayerMask layerMask;
     public LayerMask environmentLayerMask;
     public float alertTime = 10;
+    public Sprite fovBlue;
+    public Sprite fovRed;
+    public Transform FOV;
 
     State state = State.Patrolling;
     Vector3 velocity;
@@ -42,8 +45,10 @@ public class CopController : Movable
     IEnumerator LookForPlayer()
     {
         LookingForPlayer = true;
+        SetFovColor(fovRed);
         yield return new WaitForSeconds(alertTime);
         LookingForPlayer = false;
+        SetFovColor(fovBlue);
     }
 
     void CopLogic()
@@ -69,6 +74,7 @@ public class CopController : Movable
                     CreateNewTarget();
                     LookingForPlayer = false;
                     state = State.Patrolling;
+                    SetFovColor(fovBlue);
                     wait = 10;
                     counter = 0;
                     return;
@@ -83,6 +89,10 @@ public class CopController : Movable
         }
     }
 
+    void SetFovColor(Sprite fov)
+    {
+        FOV.GetComponent<SpriteRenderer>().sprite = fov;
+    }
     private void CreateNewTarget()
     {
         //var length = UnityEngine.Random.Range(5, 10);
@@ -127,6 +137,7 @@ public class CopController : Movable
     {
         distanceToTarget = Vector3.Distance(target, transform.position);
         CopLogic();
+        FOV.localScale = new Vector3(detector.radius, detector.radius, 1);
     }
 
     void NoticePlayer()
@@ -134,6 +145,7 @@ public class CopController : Movable
         if(LookingForPlayer || GameManager.Player.IsStealing)
         {
             state = State.Chasing;
+            SetFovColor(fovRed);
             wait = 10;
             counter = 0;
         }        
