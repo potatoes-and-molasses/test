@@ -60,7 +60,13 @@ public class VictimController : Movable
     {
         var cops = new List<CopController>(FindObjectsOfType<CopController>());
         cops.Sort((a, b) =>Vector3.Distance(transform.position, a.transform.position).CompareTo(Vector3.Distance(transform.position, b.transform.position)));
-        cops[0].BeAlert();
+
+        var num = Mathf.Max(GameManager.NumberOfCops(), cops.Count);
+
+        for (int i = 0; i < num; i++)
+        {
+            cops[i].BeAlert();
+        }
     }
 
     void VictimLogic()
@@ -73,6 +79,8 @@ public class VictimController : Movable
                     ChooseState();
                     return;
                 }
+                UpdateSpeed();
+                Move();
                 timeCounter += Time.fixedDeltaTime;
                 return;
             case State.Walking:
@@ -98,6 +106,8 @@ public class VictimController : Movable
                 }
                 transform.rotation = Quaternion.Euler(0, 0, (1 - rotationDelta) * startAngle + rotationDelta * endAngle);
                 rotationDelta += Time.fixedDeltaTime * turnSpeed;
+                UpdateSpeed();
+                Move();
                 return;
 
         }
@@ -109,7 +119,7 @@ public class VictimController : Movable
         state = (res <= 33) ? State.Walking : (res <= 66)? State.UsePhone : State.LookAround;
         if(state == State.Walking)
         {
-            ChooseTarget(0);
+            ChooseTarget();
         }
         else if(state == State.UsePhone)
         {
@@ -157,24 +167,16 @@ public class VictimController : Movable
         endAngle = (360 + startAngle + Random.Range(90, 180)) % 360;
 
     }
-    private void ChooseTarget(int attempts)
+    private void ChooseTarget()
     {
-        if(attempts > 10)
-        {
-            ChooseState();
-            return;
-        }
-        var length = Random.Range(3, 5);
-        var angle = Random.Range(0, 2 * Mathf.PI);
-        Vector3 newTarget = transform.position + new Vector3(Mathf.Sin(angle) * length, Mathf.Cos(angle) * length, 0);
+        var newTarget = GameManager.Spawner.RandomPoint();
         var dir = (newTarget - transform.position).normalized;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, length, enviromentLayerMask);
-        if(hit.collider != null)
-        {
-            ChooseTarget(attempts+1);
-            return;
-        }
-        target = newTarget;
+        var dist = Vector3.Distance(transform.position, target);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dist, layerMask);
+        if (hit.collider != null)
+            target = new Vector3(hit.point.x, hit.point.y,0) - dir;
+        else
+            target = newTarget;
     }
 
     // Update is called once per frame
