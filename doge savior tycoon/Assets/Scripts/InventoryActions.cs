@@ -55,7 +55,7 @@ public class InventoryActions : MonoBehaviour
     {
         string name = NAMES[Random.Range(0, NAMES.Length)];
         int basec = Random.Range(50, 150);
-        int maintenance = Random.Range(basec / 20, basec / 10);
+        int maintenance = Random.Range(basec / 10, basec / 5);
         float mod = Random.Range(0.6f, 1.4f);
         DogData newdog = new DogData(name, basec, maintenance, mod, doges.Count);
         doges.Add(newdog);
