@@ -42,6 +42,15 @@ public class CopController : Movable
         StartCoroutine(LookForPlayer());
     }
 
+    private void OnTriggerEnter2D(Collider2D collision) //not working yet
+    {
+        Debug.Log(collision.name);
+        if (collision.name == "Player")//noooo
+        {
+            GameManager.Inventory.remove_all_doges();
+        }
+    }
+
     IEnumerator LookForPlayer()
     {
         LookingForPlayer = true;

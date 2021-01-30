@@ -82,4 +82,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("gameover placeholder");
         }
     }
+
+   
 }

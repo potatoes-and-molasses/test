@@ -111,6 +111,28 @@ public class InventoryActions : MonoBehaviour
         
         obj.transform.SetParent(transform.Find("DogsPanel").transform);
     }
+    
+
+    public void remove_all_doges()
+    {
+        foreach (DogMovement onedoge in GameObject.FindObjectsOfType<DogMovement>())
+        {
+            if (onedoge.owner.name == "Player")
+            {
+                Destroy(onedoge.gameObject);
+                
+            }
+        }
+        foreach (DogeUI dogeui in GameObject.FindObjectsOfType<DogeUI>())
+        {
+            Destroy(dogeui.gameObject);
+        }
+
+        doges.Clear();
+
+
+
+    }
     public void sell_doge(int idx)
     {
         int res = doges[idx].sell();
@@ -125,18 +147,17 @@ public class InventoryActions : MonoBehaviour
             }
 
         }
-        void get_rid_of_doge(GameObject go)
-        {
-            GameObject.Destroy(go.gameObject);
-        }
+        
         foreach (DogMovement onedoge in GameObject.FindObjectsOfType<DogMovement>())
         {
             if (onedoge.owner.name == "Player")
             {
-                get_rid_of_doge(onedoge.gameObject);
+                Destroy(onedoge.gameObject);
                 break;
             }
         }
+
+        
 
     }
 
