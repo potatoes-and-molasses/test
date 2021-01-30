@@ -52,6 +52,7 @@ public class VictimController : Movable
                 belovedDog.hand = player.GetHand();
                 belovedDog = null;
                 player.AddDog();
+                GameManager.Spawner.spawn_obj("cop");
                 doge_b_gone = true;
             }
         }
