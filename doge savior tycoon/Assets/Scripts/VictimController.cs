@@ -46,7 +46,7 @@ public class VictimController : Movable
         if(hit.collider != null)
         {
             PlayerController player = GameManager.Player;
-            if (player.IsStealing)
+            if (player.IsTryingToSteal)
             {   
                 belovedDog.owner = GameManager.Player;
                 belovedDog.hand = player.GetHand();

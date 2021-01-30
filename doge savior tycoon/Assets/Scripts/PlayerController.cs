@@ -9,15 +9,25 @@ public class PlayerController : Movable
     private Vector2 velocity;
     private float currentSpeed;
     private bool isMoving;
+    private bool isStealingSucceed = false;
     private Rigidbody2D rb;
     private bool isStealing = false;
     private int newDogs;
-    public bool IsStealing => isStealing;
-    
+    public bool IsTryingToSteal => isStealing;
+    public bool IsStealing => isStealing && isStealingSucceed;
+
     public void AddDog()
     {
         newDogs++;
         GameManager.Inventory.generate_new_doge();
+        StartCoroutine(OnRescue());
+    }
+
+    IEnumerator OnRescue()
+    {
+        isStealingSucceed = true;
+        yield return new WaitForSeconds(0.3f);
+        isStealingSucceed = false;
     }
 
     public int GetDogeAmount()
