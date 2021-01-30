@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static PlayerController Player;
     public static InventoryActions Inventory;
     public static int total_risk;
+    public static int timepassage = 1;
     
     void Start()
     {

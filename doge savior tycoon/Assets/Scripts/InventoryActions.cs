@@ -69,7 +69,7 @@ public class InventoryActions : MonoBehaviour
         cost_per_sec = 0;
         balance_value = GameObject.Find("CurrentBalanceValue").GetComponent<TMP_Text>();
         maint_value = GameObject.Find("CurrentMaintValue").GetComponent<TMP_Text>();
-        InvokeRepeating("TimePass", 1, 1);
+        InvokeRepeating("TimePass", GameManager.timepassage, GameManager.timepassage);
         //generate_new_doge();
         //generate_new_doge();
         //generate_new_doge();
