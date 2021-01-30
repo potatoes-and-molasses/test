@@ -54,9 +54,9 @@ public class InventoryActions : MonoBehaviour
     public void generate_new_doge()
     {
         string name = NAMES[Random.Range(0, NAMES.Length)];
-        int basec = Random.Range(50, 250);
-        int maintenance = Random.Range(1, basec / 10);
-        float mod = Random.Range(0.4f, 1.6f);
+        int basec = Random.Range(50, 150);
+        int maintenance = Random.Range(basec / 20, basec / 10);
+        float mod = Random.Range(0.6f, 1.4f);
         DogData newdog = new DogData(name, basec, maintenance, mod, doges.Count);
         doges.Add(newdog);
         create_doge(newdog);
@@ -65,14 +65,15 @@ public class InventoryActions : MonoBehaviour
     void Start()
     {
         
-        current_balance = 10;
+        current_balance = 100;
         cost_per_sec = 0;
         balance_value = GameObject.Find("CurrentBalanceValue").GetComponent<TMP_Text>();
         maint_value = GameObject.Find("CurrentMaintValue").GetComponent<TMP_Text>();
         InvokeRepeating("TimePass", 1, 1);
-        generate_new_doge();
-        generate_new_doge();
-        generate_new_doge();
+        //generate_new_doge();
+        //generate_new_doge();
+        //generate_new_doge();
+        
         
     }
 
@@ -84,10 +85,11 @@ public class InventoryActions : MonoBehaviour
         foreach (DogData dog in doges)
         {
             dog.updog();
-            total_risk += dog.current_risk;
+            total_risk += (int)Mathf.Pow(dog.current_risk,2);
             cost_per_sec += dog.maintenance_cost;
 
         }
+        GameManager.total_risk = total_risk;
 
         //Debug.Log("current balance: " + current_balance + " current_risk: " + total_risk);
         //need ui indication
@@ -97,6 +99,8 @@ public class InventoryActions : MonoBehaviour
     {
         balance_value.text = current_balance + "$";
         maint_value.text = cost_per_sec + "$";
+
+        
     }
 
     void create_doge(DogData data)
@@ -120,6 +124,18 @@ public class InventoryActions : MonoBehaviour
                 doges[i].doge_id = i;
             }
 
+        }
+        void get_rid_of_doge(GameObject go)
+        {
+            GameObject.Destroy(go.gameObject);
+        }
+        foreach (DogMovement onedoge in GameObject.FindObjectsOfType<DogMovement>())
+        {
+            if (onedoge.owner.name == "Player")
+            {
+                get_rid_of_doge(onedoge.gameObject);
+                break;
+            }
         }
 
     }

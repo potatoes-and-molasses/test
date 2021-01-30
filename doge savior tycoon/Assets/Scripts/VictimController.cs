@@ -19,6 +19,7 @@ public class VictimController : Movable
     private float rotationDelta = 0;
     float startAngle = 0;
     float endAngle = 0;
+    bool doge_b_gone = false;
     [SerializeField]
     State state;
     void Awake()
@@ -35,6 +36,10 @@ public class VictimController : Movable
     }
     void CheckIfPlayerStealDoge()
     {
+        if (doge_b_gone)
+        {
+            return;
+        }
         var dist = Vector3.Distance(belovedDog.transform.position, transform.position);
         var dir = (belovedDog.transform.position - transform.position).normalized;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dist, layerMask);
@@ -46,6 +51,7 @@ public class VictimController : Movable
                 belovedDog.owner = GameManager.Player;
                 belovedDog.hand = player.GetHand();
                 player.AddDog();
+                doge_b_gone = true;
             }
         }
     }
