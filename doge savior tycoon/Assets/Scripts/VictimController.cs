@@ -20,6 +20,7 @@ public class VictimController : Movable
     float startAngle = 0;
     float endAngle = 0;
     bool doge_b_gone = false;
+    bool canSeePlayer = false;
     [SerializeField]
     State state;
     void Awake()
@@ -31,7 +32,8 @@ public class VictimController : Movable
     {
         rb = GetComponent<Rigidbody2D>();
         detector = GetComponent<ThiefDetector>();
-        detector.OnStealingDetection += OnStealingDetection;
+        detector.OnStealingDetection += ()=>canSeePlayer = true;
+        detector.OnPlayerEscaped += () => canSeePlayer = false;
         ChooseState();
     }
     void CheckIfPlayerStealDoge()
@@ -47,29 +49,20 @@ public class VictimController : Movable
         {
             PlayerController player = GameManager.Player;
             if (player.IsTryingToSteal)
-            {   
-                belovedDog.owner = GameManager.Player;
-                belovedDog.hand = player.GetHand();
-                belovedDog = null;
-                player.AddDog();
+            {
+                if (!canSeePlayer)
+                {
+                    belovedDog.owner = GameManager.Player;
+                    belovedDog.hand = player.GetHand();
+                    belovedDog = null;
+                    player.AddDog();
+                }
                 GameManager.Spawner.spawn_obj("cop");
                 doge_b_gone = true;
             }
         }
     }
 
-    void OnStealingDetection()
-    {
-        var cops = new List<CopController>(FindObjectsOfType<CopController>());
-        cops.Sort((a, b) =>Vector3.Distance(transform.position, a.transform.position).CompareTo(Vector3.Distance(transform.position, b.transform.position)));
-
-        var num = Mathf.Min(GameManager.NumberOfCops(), cops.Count);
-
-        for (int i = 0; i < num; i++)
-        {
-            cops[i].BeAlert();
-        }
-    }
 
     void VictimLogic()
     {

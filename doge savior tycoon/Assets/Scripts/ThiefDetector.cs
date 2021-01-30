@@ -17,7 +17,7 @@ public class ThiefDetector : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         var dist = Vector3.Distance(transform.position, GameManager.Player.transform.position);
         if(dist < radius)

@@ -221,9 +221,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 5
   deceleration: 8
-  speed: 6
+  speed: 3
   turnSpeed: 3
-  patrolSpeed: 4
+  patrolSpeed: 2
   layerMask:
     serializedVersion: 2
     m_Bits: 512

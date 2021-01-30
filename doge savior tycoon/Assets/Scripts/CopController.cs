@@ -9,7 +9,6 @@ public class CopController : Movable
 {
     enum State { Patrolling, Chasing}
     ThiefDetector detector;
-    bool LookingForPlayer;
     public float patrolSpeed = 3;
     public LayerMask layerMask;
     public LayerMask environmentLayerMask;
@@ -38,10 +37,6 @@ public class CopController : Movable
         CreateNewTarget();
     }
 
-    public void BeAlert()
-    {
-        StartCoroutine(LookForPlayer());
-    }
 
     private void OnTriggerEnter2D(Collider2D collision) //not working yet
     {
@@ -52,12 +47,6 @@ public class CopController : Movable
         }
     }
 
-    IEnumerator LookForPlayer()
-    {
-        LookingForPlayer = true;
-        yield return new WaitForSeconds(alertTime);
-        LookingForPlayer = false;
-    }
 
     void CopLogic()
     {
@@ -164,7 +153,6 @@ public class CopController : Movable
 
     void NoticePlayer()
     {
-        Debug.Log("Cop Can See");
         state = State.Chasing;
     }
     // Update is called once per frame
