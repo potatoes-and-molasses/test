@@ -48,10 +48,9 @@ public class ThiefDetector : MonoBehaviour
         var rightAngle = currentAngle + povAngle;
         var leftAngle = currentAngle - povAngle;
         var dir = (GameManager.Player.transform.position - transform.position).normalized;
-        var angle = (dir.y >= 0) ? Mathf.Acos(dir.x) * Mathf.Rad2Deg : -Mathf.Acos(dir.x) * Mathf.Rad2Deg;
+        var angle = (dir.y >= 0) ? Mathf.Acos(dir.x) * Mathf.Rad2Deg : 360 -Mathf.Acos(dir.x) * Mathf.Rad2Deg;
         RaycastHit2D rc = Physics2D.Raycast(transform.position, dir, radius, layerMask);
 
-        
         return (leftAngle <= angle && rightAngle >= angle) && (rc.collider == null);
 
     }

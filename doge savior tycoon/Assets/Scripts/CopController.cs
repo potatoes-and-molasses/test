@@ -32,7 +32,7 @@ public class CopController : Movable
     {
         rb = GetComponent<Rigidbody2D>();
         detector = GetComponent<ThiefDetector>();
-        detector.OnStealingDetection += NoticePlayer;
+        detector.OnStealingDetection += () => state = State.Chasing;
         detector.OnPlayerEscaped += () => {state = State.Patrolling; wait = 2; counter = 0; };
         CreateNewTarget();
     }
@@ -151,13 +151,6 @@ public class CopController : Movable
         FOV.localScale = new Vector3(detector.radius, detector.radius, 1);
     }
 
-    void NoticePlayer()
-    {
-        state = State.Chasing;
-    }
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }
