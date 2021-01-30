@@ -28,4 +28,6 @@ public class Spawner : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, new Vector3(width, height, 1));
 
     }
+
+
 }

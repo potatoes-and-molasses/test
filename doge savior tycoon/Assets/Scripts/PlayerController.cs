@@ -15,6 +15,7 @@ public class PlayerController : Movable
     private int newDogs;
     public bool IsTryingToSteal => isStealing;
     public bool IsStealing => isStealing && isStealingSucceed;
+    public Animator anim;
 
     public void AddDog()
     {
@@ -54,19 +55,25 @@ public class PlayerController : Movable
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        
+        anim = GetComponent<Animator>();
         inputs.KeysandMouse.Movement.performed += ctx => 
         { 
             velocity = ctx.ReadValue<Vector2>();
             isMoving = true;
+            anim.SetTrigger("Walking");
         };
         inputs.KeysandMouse.Movement.canceled += ctx =>
         {
             //velocity = Vector2.zero;
             isMoving = false;
+            anim.ResetTrigger("Walking");
         };
-        inputs.KeysandMouse.StealDog.started += ctx => StartCoroutine(StealDog());
-        inputs.KeysandMouse.StealDog.canceled += ctx => isStealing = false;
+        inputs.KeysandMouse.StealDog.started += ctx =>
+        {
+            anim.SetTrigger("Stealing");
+            StartCoroutine(StealDog());
+        };
+        inputs.KeysandMouse.StealDog.canceled += ctx => { isStealing = false; anim.ResetTrigger("Stealing"); };
         inputs.KeysandMouse.Inventory.started += ctx => GameManager.ToggleInventory();
     }
 
