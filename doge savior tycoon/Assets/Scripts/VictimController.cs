@@ -50,6 +50,7 @@ public class VictimController : Movable
             {   
                 belovedDog.owner = GameManager.Player;
                 belovedDog.hand = player.GetHand();
+                belovedDog = null;
                 player.AddDog();
                 doge_b_gone = true;
             }
@@ -179,11 +180,17 @@ public class VictimController : Movable
             target = newTarget;
     }
 
+    private void OnBecameInvisible()
+    {
+        if(belovedDog == null)
+            Destroy(gameObject);
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
         UpdateSpeed();
-        CheckIfPlayerStealDoge();
+        if(belovedDog != null)
+            CheckIfPlayerStealDoge();
         VictimLogic();
     }
 }
