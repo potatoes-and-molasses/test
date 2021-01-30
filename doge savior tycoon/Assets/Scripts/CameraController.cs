@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour
     {
          //velocity = transform.position - lastPos;
          //lastPos = transform.position;
-         Vector3 newPos = GameManager.Player.transform.position;
+         Vector3 newPos = GameManager.Player.transform.position + GameManager.Player.Velocity;
          newPos.z = transform.position.z;
          velocity = newPos - transform.position;
 

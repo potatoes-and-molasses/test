@@ -15,6 +15,7 @@ public class PlayerController : Movable
     private int newDogs;
     public bool IsTryingToSteal => isStealing;
     public bool IsStealing => isStealing && isStealingSucceed;
+    public Vector3 Velocity => velocity * currentSpeed;
     public Animator anim;
 
     public void AddDog()
