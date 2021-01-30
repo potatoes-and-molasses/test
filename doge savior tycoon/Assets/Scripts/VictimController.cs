@@ -52,7 +52,10 @@ public class VictimController : Movable
 
     void OnStealingDetection()
     {
-        Debug.Log("Oh no!");
+        if (GameManager.Player.IsStealing)
+        {
+            Debug.Log("Oh no!");
+        }
     }
 
     void VictimLogic()

@@ -42,6 +42,14 @@ public class InventoryActions : MonoBehaviour
     {
         return active;
     }
+
+    public void enable_doges()
+    {
+        foreach(DogData doge in doges)
+        {
+            doge.can_return = true;
+        }
+    }
     string[] NAMES = {"Mr. Doge","Doge, the Esteemed", "Good Ol' Doge", "Yet Another Doge", "Doge, the First", "Just a Doge", "Bob", "Arch-Dog Extraordinaire", "Cat"};
     public void generate_new_doge()
     {
@@ -81,7 +89,7 @@ public class InventoryActions : MonoBehaviour
 
         }
 
-        Debug.Log("current balance: " + current_balance + " current_risk: " + total_risk);
+        //Debug.Log("current balance: " + current_balance + " current_risk: " + total_risk);
         //need ui indication
     }
     // Update is called once per frame

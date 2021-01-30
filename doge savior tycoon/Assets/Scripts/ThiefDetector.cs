@@ -8,6 +8,7 @@ public class ThiefDetector : MonoBehaviour
     public float radius = 5;
     public float povAngle = 25;
     public Action OnStealingDetection;
+    public LayerMask layerMask;
     void Start()
     {
         
@@ -21,7 +22,7 @@ public class ThiefDetector : MonoBehaviour
         {
             if(CanSeePlayer())
             {
-                if(GameManager.Player.IsStealing)
+                
                 {
                     OnStealingDetection.Invoke();
                 }
@@ -36,8 +37,10 @@ public class ThiefDetector : MonoBehaviour
         var leftAngle = currentAngle - povAngle;
         var dir = (GameManager.Player.transform.position - transform.position).normalized;
         var angle = (dir.y >= 0) ? Mathf.Acos(dir.x) * Mathf.Rad2Deg : -Mathf.Acos(dir.x) * Mathf.Rad2Deg;
+        RaycastHit2D rc = Physics2D.Raycast(transform.position, dir, radius, layerMask);
+        
 
-        return leftAngle <= angle && rightAngle >= angle;
+        return (leftAngle <= angle && rightAngle >= angle) && (rc.collider==null);
 
     }
 

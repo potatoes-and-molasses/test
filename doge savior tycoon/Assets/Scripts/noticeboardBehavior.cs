@@ -25,11 +25,7 @@ public class noticeboardBehavior : MonoBehaviour
         Debug.Log(collision.gameObject.name);
         //if (collision.gameObject.name == "Player")
         {
-            int dogecount = GameManager.Player.GetDogeAmount();
-            for (int i = 0; i < dogecount; i++)
-            {
-                GameManager.Inventory.generate_new_doge();
-            }
+            GameManager.Inventory.enable_doges();
             GameManager.ToggleInventory();
         }
     }

@@ -11,7 +11,7 @@ public class DogData
     public int maintenance_cost;
     public float increase_modifier;
     public int doge_id;
-
+    public bool can_return;
     public DogData(string aname, int basec, int maintenance, float modifier, int id)
     {
         name = aname;
@@ -21,6 +21,7 @@ public class DogData
         maintenance_cost = maintenance;
         increase_modifier = modifier;
         doge_id = id;
+        can_return = false;
     }
     
     public int sell()

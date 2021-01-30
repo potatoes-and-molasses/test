@@ -17,6 +17,7 @@ public class PlayerController : Movable
     public void AddDog()
     {
         newDogs++;
+        GameManager.Inventory.generate_new_doge();
     }
 
     public int GetDogeAmount()

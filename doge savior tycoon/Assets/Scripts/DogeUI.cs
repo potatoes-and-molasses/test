@@ -13,6 +13,7 @@ public class DogeUI : MonoBehaviour
     TMP_Text reward;
     TMP_Text maintenance;
     TMP_Text risk;
+    Button return_button;
     
 
     public DogData data;
@@ -24,11 +25,13 @@ public class DogeUI : MonoBehaviour
         reward = GetComponentsInChildren<TMP_Text>()[2];
         maintenance = GetComponentsInChildren<TMP_Text>()[3];
         risk = GetComponentsInChildren<TMP_Text>()[4];
+        return_button = GetComponentInChildren<Button>();
         inventory_ref = GameObject.Find("InventoryCanvas").GetComponent<InventoryActions>();
         dname.text = data.name;
         reward.text = "Reward: "+data.sell()+"$";
         maintenance.text = $"Food Cost: {data.maintenance_cost}$";
         risk.text = "Risk Level: " + data.current_risk;
+        return_button.enabled = data.can_return;
         doge_id = data.doge_id;
 
     }
@@ -40,6 +43,7 @@ public class DogeUI : MonoBehaviour
         reward.text = "Reward: " + data.sell() + "$";
         risk.color = new Color(data.current_risk*10f/255f, 0, 0); // temp
         doge_id = data.doge_id;
+        return_button.enabled = data.can_return;
     }
 
     public void selldoge()
