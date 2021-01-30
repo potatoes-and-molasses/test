@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/TempScene2.unity
+    guid: 36f812fdc2bb93e47ad3b52e04e7ce2e
   m_configObjects: {}

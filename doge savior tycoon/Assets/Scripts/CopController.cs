@@ -133,6 +133,21 @@ public class CopController : Movable
         }
     }
 
+    private void OnBecameInvisible()
+    {
+        int delta = GameManager.cop_count - GameManager.cop_cap;
+        if (delta > 0)
+        {
+            float rnd = UnityEngine.Random.Range(0f, 1f);
+            if (rnd < (delta / (GameManager.cop_count + GameManager.cop_cap)))
+            {
+                Debug.Log("copdelete engaged");
+                Destroy(gameObject);
+                GameManager.cop_count -= 1;
+            }
+        }
+    }
+
     void FixedUpdate()
     {
         distanceToTarget = Vector3.Distance(target, transform.position);

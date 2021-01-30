@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static PlayerController Player;
@@ -66,9 +66,20 @@ public class GameManager : MonoBehaviour
         Inventory.show();
     }
 
+    bool IsGameOver()
+    {
+        if (Inventory.current_balance < 0)
+        {
+            return true;
+        }
+        return false;
+    }
     // Update is called once per frame
     void Update()
     {
-
+        if (IsGameOver())
+        {
+            Debug.Log("gameover placeholder");
+        }
     }
 }
