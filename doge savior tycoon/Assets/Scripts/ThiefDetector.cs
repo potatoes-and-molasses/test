@@ -8,10 +8,12 @@ public class ThiefDetector : MonoBehaviour
     public float radius = 5;
     public float povAngle = 25;
     public Action OnStealingDetection;
+    public Action OnPlayerEscaped;
     public LayerMask layerMask;
+    private bool seenPlayer = false;
     void Start()
     {
-        
+        OnPlayerEscaped += () => { };
     }
 
     // Update is called once per frame
@@ -20,12 +22,16 @@ public class ThiefDetector : MonoBehaviour
         var dist = Vector3.Distance(transform.position, GameManager.Player.transform.position);
         if(dist < radius)
         {
-            if(CanSeePlayer())
+            var result = CanSeePlayer();
+            if (result == true && !seenPlayer)
             {
-                
-                {
-                    OnStealingDetection.Invoke();
-                }
+                seenPlayer = true;
+                OnStealingDetection.Invoke();
+            }
+            else if (result == false && seenPlayer)
+            {
+                seenPlayer = false;
+                OnPlayerEscaped.Invoke();
             }
         }
     }
@@ -38,9 +44,9 @@ public class ThiefDetector : MonoBehaviour
         var dir = (GameManager.Player.transform.position - transform.position).normalized;
         var angle = (dir.y >= 0) ? Mathf.Acos(dir.x) * Mathf.Rad2Deg : -Mathf.Acos(dir.x) * Mathf.Rad2Deg;
         RaycastHit2D rc = Physics2D.Raycast(transform.position, dir, radius, layerMask);
-        
 
-        return (leftAngle <= angle && rightAngle >= angle) && (rc.collider==null);
+        
+        return (leftAngle <= angle && rightAngle >= angle) && (rc.collider == null);
 
     }
 

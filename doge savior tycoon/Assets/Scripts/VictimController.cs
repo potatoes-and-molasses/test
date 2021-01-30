@@ -52,10 +52,9 @@ public class VictimController : Movable
 
     void OnStealingDetection()
     {
-        if (GameManager.Player.IsStealing)
-        {
-            Debug.Log("Oh no!");
-        }
+        var cops = new List<CopController>(FindObjectsOfType<CopController>());
+        cops.Sort((a, b) =>Vector3.Distance(transform.position, a.transform.position).CompareTo(Vector3.Distance(transform.position, b.transform.position)));
+        cops[0].BeAlert();
     }
 
     void VictimLogic()
@@ -130,8 +129,7 @@ public class VictimController : Movable
     void Move()
     {
         var newPos = transform.position + new Vector3(velocity.x, velocity.y, 0) * currentSpeed * Time.fixedDeltaTime;
-        var angle = (velocity.y >= 0) ? Mathf.Acos(velocity.x) * Mathf.Rad2Deg : -Mathf.Acos(velocity.x) * Mathf.Rad2Deg;
-        rb.velocity = velocity * currentSpeed;
+        rb.MovePosition(newPos);
     }
     void CalculateVelocity()
     {

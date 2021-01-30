@@ -5,6 +5,7 @@ using UnityEngine;
 //[RequireComponent(typeof(LineRenderer))]
 public class DogMovement : MonoBehaviour
 {
+    
     enum State {WalksToOwner, WalksToRandomPoint, RichedRandomPoint , RichedOwner };
     public Movable owner;
     public float leashLength = 5;
@@ -168,7 +169,7 @@ public class DogMovement : MonoBehaviour
         else if(dist > 0.3)
             rb.MovePosition(transform.position + newPos * (speed/2) * Time.fixedDeltaTime);*/
 
-        var newPos = transform.right;
+        var newPos = new Vector3(velocity.x, velocity.y, 0);
         if (state == State.WalksToOwner)
             rb.MovePosition(transform.position + newPos * owner.speed * Time.fixedDeltaTime);
         else if (dist > 0.3)
