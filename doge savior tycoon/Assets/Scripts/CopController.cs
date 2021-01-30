@@ -26,6 +26,7 @@ public class CopController : Movable
     Rigidbody2D rb;
     float counter = 0;
     float wait = 0;
+    bool colorBlue = true;
     
     // Start is called before the first frame update
     void Start()
@@ -33,7 +34,7 @@ public class CopController : Movable
         rb = GetComponent<Rigidbody2D>();
         detector = GetComponent<ThiefDetector>();
         detector.OnStealingDetection += NoticePlayer;
-        detector.OnPlayerEscaped += () => state = State.Patrolling;
+        detector.OnPlayerEscaped += () => {state = State.Patrolling; wait = 2; counter = 0; };
         CreateNewTarget();
     }
 
@@ -54,10 +55,8 @@ public class CopController : Movable
     IEnumerator LookForPlayer()
     {
         LookingForPlayer = true;
-        SetFovColor(fovRed);
         yield return new WaitForSeconds(alertTime);
         LookingForPlayer = false;
-        SetFovColor(fovBlue);
     }
 
     void CopLogic()
@@ -65,7 +64,12 @@ public class CopController : Movable
         switch (state)
         {
             case State.Patrolling:
-                if(distanceToTarget < 0.2f || counter > wait)
+                if (!colorBlue)
+                {
+                    SetFovColor(fovBlue);
+                    colorBlue = true;
+                }
+                if(distanceToTarget < 0.4f || counter > wait)
                 {
                     CreateNewTarget();
                     wait = 10;
@@ -78,17 +82,11 @@ public class CopController : Movable
                 Move();
                 return;
             case State.Chasing:
-                if(counter > wait)
+                if (colorBlue)
                 {
-                    CreateNewTarget();
-                    LookingForPlayer = false;
-                    state = State.Patrolling;
-                    SetFovColor(fovBlue);
-                    wait = 10;
-                    counter = 0;
-                    return;
+                    SetFovColor(fovRed);
+                    colorBlue = false;
                 }
-                counter += Time.fixedDeltaTime;
                 target = GameManager.Player.transform.position;
                 Updatespeed();
                 LookAtTarget();
@@ -166,13 +164,8 @@ public class CopController : Movable
 
     void NoticePlayer()
     {
-        if(LookingForPlayer || GameManager.Player.IsStealing)
-        {
-            state = State.Chasing;
-            SetFovColor(fovRed);
-            wait = 10;
-            counter = 0;
-        }        
+        Debug.Log("Cop Can See");
+        state = State.Chasing;
     }
     // Update is called once per frame
     void Update()

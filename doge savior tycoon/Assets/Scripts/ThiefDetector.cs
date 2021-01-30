@@ -33,6 +33,12 @@ public class ThiefDetector : MonoBehaviour
                 seenPlayer = false;
                 OnPlayerEscaped.Invoke();
             }
+            return;
+        }
+        if(seenPlayer)
+        {
+            seenPlayer = false;
+            OnPlayerEscaped.Invoke();
         }
     }
 
@@ -50,7 +56,7 @@ public class ThiefDetector : MonoBehaviour
 
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         var currentAngle = transform.eulerAngles.z;
