@@ -66,6 +66,7 @@ public class Spawner : MonoBehaviour
                 DogMovement dm = doge.GetComponent<DogMovement>();
                 dm.owner = ct;
                 dm.hand = ct.transform.GetChild(0);
+                dm.Init();
                 GameManager.human_count += 1;
                 break;
             default:

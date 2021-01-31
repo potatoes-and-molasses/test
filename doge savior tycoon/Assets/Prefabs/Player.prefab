@@ -101,9 +101,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 8
   deceleration: 11
-  speed: 3.5
+  speed: 4
   turnSpeed: 10
   anim: {fileID: 0}
+  emitter: {fileID: 0}
+  footSteps: {fileID: 0}
 --- !u!50 &8321776515962665183
 Rigidbody2D:
   serializedVersion: 4

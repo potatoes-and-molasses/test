@@ -50,9 +50,15 @@ public class ThiefDetector : MonoBehaviour
         RaycastHit2D rc = Physics2D.Raycast(transform.position, dir, radius, layerMask);
 
         var anglediff = (currentAngle - angle + 180 + 360) % 360 - 180;
-        
+        if(rc.collider != null)
+        {
+            var dist1 = Vector3.Distance(transform.position, GameManager.Player.transform.position);
+            var dist2 = Vector3.Distance(transform.position, rc.point);
+            if (dist2 < dist1)
+                return false;
+        }
 
-        return (anglediff <= povAngle && anglediff >= -povAngle) && (rc.collider == null);
+        return (anglediff <= povAngle && anglediff >= -povAngle);
 
     }
 

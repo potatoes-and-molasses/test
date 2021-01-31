@@ -41,6 +41,22 @@ public class @Inputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Tap""
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""5127dd07-b9f5-4c6b-989d-1a281a22967f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap""
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""54bfb902-f184-4dab-b67e-1687ae04ff48"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap""
                 }
             ],
             ""bindings"": [
@@ -175,6 +191,28 @@ public class @Inputs : IInputActionCollection, IDisposable
                     ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""748c8427-0191-4251-b184-48b5d5b38e37"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9a679160-9686-48e3-b8d2-7bc0889b9de8"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -186,6 +224,8 @@ public class @Inputs : IInputActionCollection, IDisposable
         m_KeysandMouse_Movement = m_KeysandMouse.FindAction("Movement", throwIfNotFound: true);
         m_KeysandMouse_StealDog = m_KeysandMouse.FindAction("StealDog", throwIfNotFound: true);
         m_KeysandMouse_Inventory = m_KeysandMouse.FindAction("Inventory", throwIfNotFound: true);
+        m_KeysandMouse_Exit = m_KeysandMouse.FindAction("Exit", throwIfNotFound: true);
+        m_KeysandMouse_Restart = m_KeysandMouse.FindAction("Restart", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -238,6 +278,8 @@ public class @Inputs : IInputActionCollection, IDisposable
     private readonly InputAction m_KeysandMouse_Movement;
     private readonly InputAction m_KeysandMouse_StealDog;
     private readonly InputAction m_KeysandMouse_Inventory;
+    private readonly InputAction m_KeysandMouse_Exit;
+    private readonly InputAction m_KeysandMouse_Restart;
     public struct KeysandMouseActions
     {
         private @Inputs m_Wrapper;
@@ -245,6 +287,8 @@ public class @Inputs : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_KeysandMouse_Movement;
         public InputAction @StealDog => m_Wrapper.m_KeysandMouse_StealDog;
         public InputAction @Inventory => m_Wrapper.m_KeysandMouse_Inventory;
+        public InputAction @Exit => m_Wrapper.m_KeysandMouse_Exit;
+        public InputAction @Restart => m_Wrapper.m_KeysandMouse_Restart;
         public InputActionMap Get() { return m_Wrapper.m_KeysandMouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -263,6 +307,12 @@ public class @Inputs : IInputActionCollection, IDisposable
                 @Inventory.started -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnInventory;
                 @Inventory.performed -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnInventory;
                 @Inventory.canceled -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnInventory;
+                @Exit.started -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnExit;
+                @Exit.performed -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnExit;
+                @Exit.canceled -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnExit;
+                @Restart.started -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnRestart;
+                @Restart.performed -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnRestart;
+                @Restart.canceled -= m_Wrapper.m_KeysandMouseActionsCallbackInterface.OnRestart;
             }
             m_Wrapper.m_KeysandMouseActionsCallbackInterface = instance;
             if (instance != null)
@@ -276,6 +326,12 @@ public class @Inputs : IInputActionCollection, IDisposable
                 @Inventory.started += instance.OnInventory;
                 @Inventory.performed += instance.OnInventory;
                 @Inventory.canceled += instance.OnInventory;
+                @Exit.started += instance.OnExit;
+                @Exit.performed += instance.OnExit;
+                @Exit.canceled += instance.OnExit;
+                @Restart.started += instance.OnRestart;
+                @Restart.performed += instance.OnRestart;
+                @Restart.canceled += instance.OnRestart;
             }
         }
     }
@@ -285,5 +341,7 @@ public class @Inputs : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnStealDog(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
     }
 }

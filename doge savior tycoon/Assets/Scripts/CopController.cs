@@ -1,3 +1,4 @@
+using FMODUnity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,21 +27,24 @@ public class CopController : Movable
     float counter = 0;
     float wait = 0;
     bool colorBlue = true;
-    
+    bool seePlayer = false;
+    StudioEventEmitter emmiter;
+
     // Start is called before the first frame update
     void Start()
     {
+        emmiter = GetComponent<StudioEventEmitter>();
         rb = GetComponent<Rigidbody2D>();
         detector = GetComponent<ThiefDetector>();
-        detector.OnStealingDetection += () => state = State.Chasing;
-        detector.OnPlayerEscaped += () => {state = State.Patrolling; wait = 2; counter = 0; };
+        detector.OnStealingDetection += () => { state = State.Chasing; seePlayer = true; emmiter.Play(); };
+        detector.OnPlayerEscaped += () => {state = State.Patrolling; wait = 2; counter = 0; seePlayer = false; };
         CreateNewTarget();
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision) //not working yet
     {
-        if (collision.name == "Player")//noooo
+        if (collision.name == "Player" && seePlayer)//noooo
         {
             GameManager.Inventory.remove_all_doges();
         }

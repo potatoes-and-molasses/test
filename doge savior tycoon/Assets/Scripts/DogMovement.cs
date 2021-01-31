@@ -40,6 +40,22 @@ public class DogMovement : MonoBehaviour
         speed = Random.Range(4, 6);
     }
 
+    public void Init()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        leash = GetComponent<LineRenderer>();
+        leash.startWidth = 0.03f;
+        leash.endWidth = 0.03f;
+        leash.startColor = leashColor;
+        leash.endColor = leashColor;
+        leash.sortingOrder = -1;
+        GenerateNewTarget();
+        speed = Random.Range(4, 6);
+    }
+    public void RestState()
+    {
+        state = State.WalksToRandomPoint;
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -114,7 +130,7 @@ public class DogMovement : MonoBehaviour
             currentSpeed = Mathf.Clamp(currentSpeed - deceleration * Time.fixedDeltaTime, 0, currentSpeed);   
     }
 
-    void GenerateNewTarget()
+    public void GenerateNewTarget()
     {        
         var length = Random.Range(minDistanceFromOwner, leashLength);
         var angle = Random.Range(0, 2 * Mathf.PI);

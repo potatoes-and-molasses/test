@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using FMODUnity;
 
 public class InventoryActions : MonoBehaviour
 {
@@ -18,16 +19,24 @@ public class InventoryActions : MonoBehaviour
     const int WHISTLE_COST = 50;
     const int BOOTS_COST = 300;
     const int WELL_COST = 10000;
-    bool active = true;
-    TMP_Text balance_value;
-    TMP_Text maint_value;
+    public StudioEventEmitter emitter;
 
+    public Transform dogsPannel;
+
+    bool active = true;
+    public TMP_Text balance_value;
+    public TMP_Text maint_value;
+
+    public void PlayReawrd()
+    {
+        emitter.Play();
+    }
     public void hide()
     {
         Canvas canvas = GetComponent<Canvas>();
         canvas.enabled = false;
         active = false;
-
+        Time.timeScale = 1;
     }
 
     public void show()
@@ -35,7 +44,7 @@ public class InventoryActions : MonoBehaviour
         Canvas canvas = GetComponent<Canvas>();
         canvas.enabled = true;
         active = true;
-
+        Time.timeScale = 0;
     }
 
     public bool isActive()
@@ -67,8 +76,6 @@ public class InventoryActions : MonoBehaviour
         
         current_balance = 100;
         cost_per_sec = 0;
-        balance_value = GameObject.Find("CurrentBalanceValue").GetComponent<TMP_Text>();
-        maint_value = GameObject.Find("CurrentMaintValue").GetComponent<TMP_Text>();
         InvokeRepeating(nameof(TimePass), GameManager.timepassage, GameManager.timepassage);
         //generate_new_doge();
         //generate_new_doge();
@@ -109,7 +116,7 @@ public class InventoryActions : MonoBehaviour
         GameObject obj = Instantiate(prefab, transform.position, transform.rotation);
         obj.GetComponent<DogeUI>().data = data;
         
-        obj.transform.SetParent(transform.Find("DogsPanel").transform);
+        obj.transform.SetParent(dogsPannel);
     }
     
 
@@ -135,6 +142,7 @@ public class InventoryActions : MonoBehaviour
     }
     public void sell_doge(int idx)
     {
+        PlayReawrd();
         int res = doges[idx].sell();
         if (res > 0)
         {

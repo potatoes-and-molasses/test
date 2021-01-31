@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,20 +9,24 @@ public class GameManager : MonoBehaviour
     public static InventoryActions Inventory;
     public static Spawner Spawner;
     public static int total_risk;
-    public static int timepassage = 1;
-    public static float maxRiskSeconds = 120;
+    public static int timepassage = 3;
+    public static float maxRiskSeconds = 60;
     public static int max_humans = 15;
     public static int max_cops = 20;
     public static int cop_count = 0;
     public static int human_count = 0;
+    public static int GameTime = 60 * 3;
+    public static Action ShowScore;
+    public static Action GameOver;
+    private static float counter = 0;
 
 
-
-    static float CurrentRisk => Mathf.Clamp(total_risk / (maxRiskSeconds * maxRiskSeconds), 0, 1);
+    public static float CurrentRisk => Mathf.Clamp(total_risk / (maxRiskSeconds * maxRiskSeconds), 0, 1);
     public static int cop_cap => (int)(CurrentRisk*max_cops);
 
     void Awake()
     {
+        counter = GameTime;
         Player = FindObjectOfType<PlayerController>();
         Inventory = FindObjectOfType<InventoryActions>();
         Spawner = FindObjectOfType<Spawner>();    }
@@ -75,13 +80,29 @@ public class GameManager : MonoBehaviour
         return false;
     }
     // Update is called once per frame
-    void Update()
+
+    public static string ShowTime()
     {
-        if (IsGameOver())
-        {
-            Debug.Log("gameover placeholder");
-        }
+        var seconds = (int)counter;
+        string s_t = "";
+        string m_t = "";
+        int s = seconds % 60;
+        s_t = s < 10 ? "0" + s : "" + s;
+        int m = seconds / 60;
+        m_t = m < 10 ? "0" + m : "" + m;
+        return $"{m_t}:{s_t}";
     }
 
-   
+    void Update()
+    {
+        if (Inventory.current_balance < 0)
+        {
+            GameOver.Invoke();
+        }
+            counter -= Time.deltaTime;
+        if(counter < 0)
+        {
+            ShowScore.Invoke();
+        }
+    }
 }

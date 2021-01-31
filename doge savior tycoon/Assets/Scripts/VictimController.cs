@@ -27,7 +27,7 @@ public class VictimController : Movable
     {
         rb = GetComponent<Rigidbody2D>();
         detector = GetComponent<ThiefDetector>();
-        detector.OnStealingDetection += ()=>canSeePlayer = true;
+        detector.OnStealingDetection += ()=> canSeePlayer = true;
         detector.OnPlayerEscaped += () => canSeePlayer = false;
         ChooseState();
     }
@@ -49,11 +49,13 @@ public class VictimController : Movable
                 {
                     belovedDog.owner = GameManager.Player;
                     belovedDog.hand = player.GetHand();
+                    belovedDog.GenerateNewTarget();
+                    belovedDog.RestState();
                     belovedDog = null;
                     player.AddDog();
+                    doge_b_gone = true;
                 }
                 GameManager.Spawner.spawn_obj("cop");
-                doge_b_gone = true;
             }
         }
     }
